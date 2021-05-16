@@ -9,33 +9,44 @@
     v-if="userInfo"
     app
   >
-    <v-list nav class="py-0">
-      <v-list-item-avatar rounded size="164">
-        <v-img :src="userInfo.images[0].url" alt="avatar"/>
-      </v-list-item-avatar>
-      <v-list-item dark>
-        <v-list-item-content>
-          <v-list-item-title class="title">Hi {{ userInfo.display_name }}!</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-list nav class="py-0">
+          <v-list-item-avatar rounded size="164">
+            <v-img :src="userInfo.images[0].url" alt="avatar" />
+          </v-list-item-avatar>
+          <v-list-item dark>
+            <v-list-item-content>
+              <v-list-item-title class="title"
+                >Hi {{ userInfo.display_name }}!</v-list-item-title
+              >
+            </v-list-item-content>
+          </v-list-item>
 
-      <v-divider></v-divider>
+          <v-divider></v-divider>
 
-      <v-list-item
-        v-for="item in items"
-        :key="item.title"
-        link
-        :to="item.url"
-      >
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
+          <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            link
+            :to="item.url"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <template v-slot:append>
+        <v-img
+          justify-end
+          v-if="currentTrack.album"
+          size="164"
+          tile
+          :src="currentTrack.album.images[0].url"
+        ></v-img>
+        </template>
   </v-navigation-drawer>
 </template>
 
@@ -54,8 +65,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["userInfo", "loggedIn", "userProfile"])
+    ...mapGetters("user", ["userInfo", "loggedIn", "userProfile"]),
+    ...mapGetters("player", ["currentTrack"]),
   },
-  created() {}
+  created() {},
 };
 </script>

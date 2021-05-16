@@ -5,7 +5,7 @@
     v-if="songs"
     style="
       overflow-y: scroll;
-      width: 80%;
+      width: 100%;
       height: 80vh;
       box-sizing: content-box;
     "
@@ -16,6 +16,7 @@
         height="80px"
         v-if="objTrack ? true : item.track"
         flat
+        color="#191414" 
         v-on:click="
           objTrack
             ? playSong({ uris: uris, position: index })

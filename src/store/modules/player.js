@@ -162,6 +162,9 @@ const actions = {
   updateSongTime({ commit }, data) {
     commit("seekTime", data);
   },
+  updateVolume({ commit }, data) {
+    commit("volume", data);
+  },
   pause() {
     Vue.prototype.$player.pause();
   },
@@ -178,6 +181,7 @@ const actions = {
     Vue.prototype.$player.seek(state.songCurrentMilisec);
   },
   setVolume({ state }) {
+    console.log(state.volume);
     Vue.prototype.$player.setVolume(state.volume);
   },
   getVolume({ commit }) {

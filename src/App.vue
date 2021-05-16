@@ -5,33 +5,6 @@
       <router-view />
     </v-content>
     <player/>
-    <v-snackbar
-      class="sp-snackbar"
-      @input="hideAlert"
-      :value="showAlert"
-      :multi-line="true"
-      :timeout="timeout"
-    >
-      <div
-        style="display: flex;align-items:center;margin:auto;"
-        v-bind:class="[alertType + '--text']"
-      >
-        <v-icon
-          style="margin-right:20px;"
-          color="white"
-          v-bind:class="[alertType + '--text']"
-          >{{ alertIcon }}</v-icon
-        >
-        {{ message }}
-      </div>
-      <v-btn
-        style="margin-top: -25px;, font-size: 12px;"
-        icon
-        text
-        @click="hideAlert"
-        ><v-icon color="white">mdi-close</v-icon></v-btn
-      >
-    </v-snackbar>
   </v-app>
 </template>
 
@@ -47,17 +20,7 @@ export default {
     player
   },
   computed: {
-    ...mapGetters("toastMessage", [
-      "timeout",
-      "alertType",
-      "alertIcon",
-      "message",
-      "showAlert"
-    ]),
     ...mapGetters("user", ["userInfo", "loggedIn", "noTokenProvided"])
-  },
-  methods: {
-    ...mapActions("toastMessage", ["hideAlert"])
   },
   beforeCreate() {
     this.$store.dispatch("user/getUserInfo");

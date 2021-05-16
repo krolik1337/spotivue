@@ -3,20 +3,18 @@
     dark
     :background-color="spotifyDark"
     id="sp-nav"
-    v-if="player"
   >
     <v-row justify="center" align="center">
-      <v-col cols="3" style="padding: 0">
-        <v-card v-if="currentTrack.name" color="#191414">
-          <div class="d-flex flex-no-wrap justify-space-between">
+      <v-col cols="3" offset-md="1" style="padding: 0">
+        <v-card v-if="currentTrack.name" color="#191414" flat height="50px">
+          <div class="d-flex flex-no-wrap">
             <div>
               <v-card-title
-                style="font-size: 12px !important; line-height: 12px"
-                class="headline"
+                style="font-size: 20px"
                 v-text="currentTrack.name"
               ></v-card-title>
 
-              <v-card-subtitle style="font-size: 10px"
+              <v-card-subtitle style="font-size: 12px"
                 ><span
                   v-for="artist in currentTrack.artists"
                   :key="artist.id"
@@ -24,9 +22,6 @@
                 ></span
               ></v-card-subtitle>
             </div>
-            <v-avatar v-if="currentTrack.album" class="ma-3" size="50" tile>
-              <v-img :src="currentTrack.album.images[1].url"></v-img>
-            </v-avatar>
             <v-card-actions>
               <v-btn
                 icon
@@ -36,7 +31,7 @@
                     : deleteTrack(currentTrack.id)
                 "
               >
-                <v-icon color="red">{{
+                <v-icon>{{
                   liked[0] === false ? "mdi-heart-outline" : "mdi-heart"
                 }}</v-icon>
               </v-btn>
@@ -45,10 +40,10 @@
         </v-card>
       </v-col>
       <v-col
-        md="3"
+        cols="6"
         lg="3"
         sm="12"
-        id="sp-palyer"
+        id="sp-player"
         style="display: flex; justify-content: center; align-items: center"
       ><v-btn
           icon
@@ -57,7 +52,7 @@
           v-on:click="shuffle(!shufflePlay)"
         >
           <v-icon
-            :color="shufflePlay ? spotifyGreen : 'secondaryLight'"
+            :color="shufflePlay ? spotifyGreen : spotifyLight"
             style="font-size: 25px"
             >mdi-shuffle</v-icon
           >
@@ -108,7 +103,20 @@
           >
         </v-btn>
       </v-col>
-      <v-col cols="3"></v-col>
+      <v-col cols="2"></v-col>
+      <v-col cols="2">
+        <v-slider
+        :color="spotifyGreen"
+        min="0"
+        step="0.001"
+        max="1"
+        prepend-icon="mdi-volume-low"
+        append-icon="mdi-volume-high"
+        v-model="volumeSlider"
+        v-on:change="setVolume"
+        >
+        </v-slider>
+      </v-col>
       <v-col cols="6" style="padding: 0; margin-top: 0px">
         <v-slider
           min="0"
@@ -116,9 +124,11 @@
           v-on:change="seek"
           :max="songDuration"
           v-model="slider"
+          :color="spotifyGreen"
+          width="50"
         >
           <template v-slot:prepend id="song">
-            <v-subheader
+            <v-text-field
               :value="
                 parseInt(currentSec / 60).toString() +
                 ':' +
@@ -130,10 +140,10 @@
               :disabled="true"
               :readonly="true"
               style="width: 35px"
-            ></v-subheader>
+            ></v-text-field>
           </template>
           <template v-slot:append>
-            <v-subheader
+            <v-text-field
               :value="
                 parseInt(maxSec / 60).toString() +
                 ':' +
@@ -145,7 +155,7 @@
               :disabled="true"
               style="width: 35px"
               flat
-            ></v-subheader>
+            ></v-text-field>
           </template>
         </v-slider>
       </v-col>
@@ -185,6 +195,14 @@ export default {
         this.updateSongTime(value);
       },
     },
+    volumeSlider: {
+      get() {
+        return this.volume;
+      },
+      set(value) {
+        this.updateVolume(value);
+      },
+    }
   },
   methods: {
     ...mapActions("player", [
@@ -194,6 +212,8 @@ export default {
       "prev",
       "seek",
       "updateSongTime",
+      "updateVolume",
+      "getVolume",
       "setVolume",
       "shuffle",
       "repeat",
