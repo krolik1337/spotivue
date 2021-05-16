@@ -1,2 +1,2 @@
-// for global actions
+// For global getters
 export default () => {};
