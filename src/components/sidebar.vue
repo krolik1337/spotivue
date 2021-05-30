@@ -44,7 +44,7 @@
           v-if="currentTrack.album"
           size="164"
           tile
-          :src="currentTrack.album.images[0].url"
+          :src="currentTrack.album.images[2].url"
         ></v-img>
         </template>
   </v-navigation-drawer>
@@ -59,6 +59,7 @@ export default {
       items: [
         { title: "Home", icon: "mdi-home-outline", url: "/" },
         { title: "Liked songs", icon: "mdi-heart-outline", url: "/saved" },
+        { title: "Podcasts", icon:"mdi-book-open", url: "/episodes"},
       ],
       color: "#1D8954",
       right: false,

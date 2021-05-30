@@ -17,7 +17,7 @@ const state = {
   songDuration: 100,
   songCurrentMilisec: 0,
   shuffle: false,
-  volume: 1,
+  volume: 0.5,
   repeat: "off"
 };
 // getters
@@ -189,10 +189,13 @@ const actions = {
       commit("volume", volume);
     });
   },
-  shuffle({ state }, data) {
+  shuffle({ commit }, data) {
+    commit("shuffle", data);
     api.playShuffle(() => {}, data);
   },
-  repeat({ state }, data) {
+  repeat({ commit }, data) {
+    console.log(data);
+    commit("repeat", data);
     api.playRepeat(() => {}, data);
   }
 };

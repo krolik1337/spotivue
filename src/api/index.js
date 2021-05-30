@@ -1,4 +1,4 @@
-// import _ from "lodash";
+import _ from "lodash";
 import SETTINGS from "../settings";
 import axios from "axios";
 import router from "@/router";
@@ -67,9 +67,18 @@ export default {
     },
     getSavedTracks(cb) {
       axios
-        .get(`me/tracks`, {
-          limit: 50
+        .get(`me/tracks?limit=50`, {
+          limit: 50,
+          offset: 0
         })
+        .then(response => {
+          cb(response.data);
+        })
+        .catch(e => cb(e.response.data.error));
+    },
+    getSavedEpisodes(cb) {
+      axios
+        .get(`me/episodes?limit=50`)
         .then(response => {
           cb(response.data);
         })

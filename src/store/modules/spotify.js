@@ -10,13 +10,14 @@ const state = {
   currentAlbumName: "",
   albumSongs: false,
   savedTracks: {},
+  savedEpisodes: {},
   recomendedTracks: {},
   featuredPlaylists: false,
   newReleases: false,
   type: "",
   trackObj: false,
   image: false,
-  liked: []
+  liked: [],
 };
 
 // getters
@@ -36,12 +37,15 @@ const getters = {
     ),
   urisSaved: state =>
     state.saved.items.map(item => (item.track ? item.track.uri : item.uri)),
+  urisEpisodes: state =>
+    state.savedEpisodes.items.map(item => (item.episode ? item.episode.uri : item.uri)),
   saved: state => state.savedTracks,
   recomendations: state => state.recomendedTracks,
   albumName: state => state.currentAlbumName,
   trackObj: state => state.trackObj,
   type: state => state.type,
-  image: state => state.image
+  image: state => state.image,
+  episodes: state => state.savedEpisodes
 };
 
 // actions
@@ -70,6 +74,15 @@ const actions = {
         this.dispatch("user/login");
       } else {
         commit("saveTracks", { tracks });
+      }
+    });
+  },
+  getSavedEpisodes({ commit }) {
+    api.getSavedEpisodes(items => {
+      if (items.status === 401) {
+        this.dispatch("user/login");
+      } else {
+        commit("saveEpisodes", { items });
       }
     });
   },
@@ -117,7 +130,7 @@ const actions = {
     api.deleteTracks(e => {
       dispatch("checkSavedTrack", [data]);
     }, data);
-  }
+  },
 };
 
 // mutations
@@ -151,6 +164,9 @@ const mutations = {
   saveSongs(state, { songs }) {
     state.albumSongs = songs;
     state.fetched = true;
+  },
+  saveEpisodes(state, { items }) {
+    state.savedEpisodes = items;
   }
 };
 

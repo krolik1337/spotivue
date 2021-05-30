@@ -1,9 +1,5 @@
 <template>
-  <v-bottom-navigation
-    dark
-    :background-color="spotifyDark"
-    id="sp-nav"
-  >
+  <v-bottom-navigation dark :background-color="spotifyDark" id="sp-nav">
     <v-row justify="center" align="center">
       <v-col cols="3" offset-md="1" style="padding: 0">
         <v-card v-if="currentTrack.name" color="#191414" flat height="50px">
@@ -45,60 +41,45 @@
         sm="12"
         id="sp-player"
         style="display: flex; justify-content: center; align-items: center"
-      ><v-btn
-          icon
-          min-width="30"
-          min-height="30"
-          v-on:click="shuffle(!shufflePlay)"
-        >
+        ><v-btn icon v-on:click="shuffle(!shufflePlay)">
           <v-icon
             :color="shufflePlay ? spotifyGreen : spotifyLight"
             style="font-size: 25px"
             >mdi-shuffle</v-icon
           >
         </v-btn>
-        <v-btn v-on:click="prev">
+        <v-btn v-on:click="prev" color="#191414">
           <v-icon>mdi-skip-previous</v-icon>
         </v-btn>
-        <v-btn v-if="player.paused" v-on:click="resume()">
+        <v-btn v-if="player.paused" v-on:click="resume()" color="#191414">
           <v-icon style="font-size: 50px">mdi-play-circle</v-icon>
         </v-btn>
 
-        <v-btn v-if="!player.paused" v-on:click="pause()">
+        <v-btn v-if="!player.paused" v-on:click="pause()" color="#191414">
           <v-icon style="font-size: 50px">mdi-pause-circle</v-icon>
         </v-btn>
-        <v-btn v-on:click="next">
-          <v-icon>mdi-skip-next</v-icon>
-        </v-btn><v-btn
-          v-if="repeatPlay === 'off'"
-          icon
-          min-width="30"
-          min-height="30"
-          v-on:click="repeat('context')"
-        >
-          <v-icon color="secondaryLight" style="font-size: 25px"
+        <v-btn v-on:click="next" color="#191414">
+          <v-icon>mdi-skip-next</v-icon> </v-btn
+        ><v-btn v-if="repeatPlay === 'off'" icon v-on:click="repeat('context')">
+          <v-icon :color="spotifyLight" style="font-size: 25px"
             >mdi-repeat</v-icon
           >
         </v-btn>
         <v-btn
           v-else-if="repeatPlay === 'context'"
           icon
-          min-width="30"
-          min-height="30"
           v-on:click="repeat('track')"
         >
-          <v-icon color="secondaryDark" style="font-size: 25px"
+          <v-icon :color="spotifyGreen" style="font-size: 25px"
             >mdi-repeat</v-icon
           >
         </v-btn>
         <v-btn
           v-else-if="repeatPlay === 'track'"
           icon
-          min-width="30"
-          min-height="30"
           v-on:click="repeat('off')"
         >
-          <v-icon color="secondaryDark" style="font-size: 25px"
+          <v-icon :color="spotifyGreen" style="font-size: 25px"
             >mdi-repeat-once</v-icon
           >
         </v-btn>
@@ -106,14 +87,14 @@
       <v-col cols="2"></v-col>
       <v-col cols="2">
         <v-slider
-        :color="spotifyGreen"
-        min="0"
-        step="0.001"
-        max="1"
-        prepend-icon="mdi-volume-low"
-        append-icon="mdi-volume-high"
-        v-model="volumeSlider"
-        v-on:change="setVolume"
+          :color="spotifyGreen"
+          min="0"
+          step="0.001"
+          max="1"
+          prepend-icon="mdi-volume-low"
+          append-icon="mdi-volume-high"
+          v-model="volumeSlider"
+          v-on:change="setVolume"
         >
         </v-slider>
       </v-col>
@@ -202,7 +183,7 @@ export default {
       set(value) {
         this.updateVolume(value);
       },
-    }
+    },
   },
   methods: {
     ...mapActions("player", [
